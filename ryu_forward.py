@@ -160,8 +160,9 @@ class SimpleSwitch13(app_manager.RyuApp):
                                  "  datapath: %s\n"
                                  "  priority: %s\n"
                                  "  match: %s\n"
-                                 "  actions: %s\n",
-                                 datapath, 1, match, actions. msg.buffer_id)
+                                 "  actions: %s\n"
+                                 "  buffer_id: %s\n",
+                                 datapath, 1, match, actions, msg.buffer_id)
                 return
             else:
                 self.add_flow1(datapath, 1, match, actions)
@@ -169,7 +170,8 @@ class SimpleSwitch13(app_manager.RyuApp):
                                  "  datapath: %s\n"
                                  "  priority: %s\n"
                                  "  match: %s\n"
-                                 "  actions: %s\n",
+                                 "  actions: %s\n"
+                                 "  buffer_id: NO_BUFFER",
                                  datapath, 1, match, actions)
 
         data = None
