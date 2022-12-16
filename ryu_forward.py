@@ -13,6 +13,13 @@ from ryu.lib.packet import icmp
 from ryu.lib.packet import tcp
 from ryu.lib.packet import udp
 
+host = '10.0.1.5'
+server_1 = '10.0.1.2'
+server_2 = '10.0.1.3'
+
+proxy_m = '00:00:00:00:00:03'
+server_1_m = '00:00:00:00:00:01'
+server_2_m = '00:00:00:00:00:02'
 
 class SimpleSwitch13(app_manager.RyuApp):
     # use OpenFlow 1.3
@@ -53,6 +60,14 @@ class SimpleSwitch13(app_manager.RyuApp):
         self.add_flow(datapath, 0, match, actions)
 
     def add_flow(self, datapath, priority, match, actions, buffer_id=None):
+        self.logger.info("Add Flow Entry\n"
+                         "  datapath: %s\n"
+                         "  priority: %s\n"
+                         "  match: %s\n"
+                         "  actions: %s\n"
+                         "  buffer_id: NO_BUFFER",
+                         datapath, 1, match, actions)
+
         ofproto = datapath.ofproto
         parser = datapath.ofproto_parser
 
@@ -149,10 +164,10 @@ class SimpleSwitch13(app_manager.RyuApp):
                     match = parser.OFPMatch(eth_type=ether_types.ETH_TYPE_IP, in_port=in_port, ipv4_dst=dstip,
                                             ip_proto=protocol, tcp_dst=t.dst_port, )
 
-            # verify if we have a valid buffer_id, if yes avoid to send both
             if eth.ethertype == ether_types.ETH_TYPE_ARP:
                 match = parser.OFPMatch(eth_type=ether_types.ETH_TYPE_ARP, in_port=in_port, eth_dst=dst, eth_src=src)
 
+            # verify if we have a valid buffer_id, if yes avoid to send both
             # flow_mod & packet_out
             if msg.buffer_id != ofproto.OFP_NO_BUFFER:
                 self.add_flow1(datapath, 1, match, actions, msg.buffer_id)
