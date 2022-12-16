@@ -1,4 +1,8 @@
 *.pdf
 *.idea
-/__pycache__
+*.out
+*.pid
+*.csv
 
+/__pycache__
+/Testing
