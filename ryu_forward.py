@@ -125,9 +125,8 @@ class SimpleSwitch13(app_manager.RyuApp):
 
                 #  if TCP Protocol
                 elif ip_protocol == in_proto.IPPROTO_TCP:
-                    t = pkt.get_protocol(tcp.tcp)
-                    match = parser.OFPMatch(eth_type=ether_types.ETH_TYPE_IP, in_port=in_port, ipv4_dst=ip_dst,
-                                            ip_proto=ip_protocol, tcp_dst=t.dst_port)
+                    match = parser.OFPMatch(eth_type=ether_types.ETH_TYPE_IP, in_port=in_port, ipv4_src=ip_src, ipv4_dst=ip_dst,
+                                            ip_proto=ip_protocol)
 
             if eth.ethertype == ether_types.ETH_TYPE_ARP:
                 match = parser.OFPMatch(eth_type=ether_types.ETH_TYPE_ARP, in_port=in_port, eth_dst=eth_dst,
